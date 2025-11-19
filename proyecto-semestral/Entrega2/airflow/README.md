@@ -26,7 +26,7 @@ airflow/
 
 ---
 
-## 1. Pipeline de modelado (extracción, features, entrenamiento y drift)
+## 2. Pipeline de modelado (extracción, features, entrenamiento y drift)
 
 Este script implementa el **pipeline completo de ciencia de datos** para un problema de clasificación binaria de compra (`target`) a nivel `cliente-producto-semana`.  
 Incluye:
