@@ -14,16 +14,18 @@ El objetivo es automatizar el flujo completo:
 
 ## 1. Estructura de carpetas
 
-```text
+  ```
 airflow/
-  dags/
-    helper_functions.py   # Lógica de negocio y funciones auxiliares de ML
-    pipeline.py           # Definición del DAG de Airflow
-  data/
-    raw/                  # Datos de entrada (parquet).
-    processed/            # Datasets procesados y splits.
-    models/               # Artefactos del modelo.
-    predictions/          # (Opcional) Salidas de predicción.
+├── dags/
+│   ├── pipeline.py              # Definición del DAG
+│   └── helper_functions.py      # Funciones ML 
+├── data/
+│   ├── raw/                     # Datos de entrada (parquets)
+│   ├── models/                  # Modelos (.pkl)
+│   └── predictions/             # Predicciones (.csv)
+├── mlruns/                      # Experimentos MLflow
+└── docker-compose.yml           # Orquestación de servicios
+```
 
 ## 2. Orquestación del pipeline con Airflow
 
