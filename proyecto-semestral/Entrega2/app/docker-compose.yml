@@ -12,7 +12,7 @@ services:
       - PREPROCESSOR_PATH=/app/models/preprocessor.pkl
     volumes:
       # Montamos los modelos entrenados desde entrega2/airflow/data/models
-      # Asumiendo que docker-compose se ejecuta desde entrega2/app
+      
       - ../airflow/data/models:/app/models:ro
     restart: unless-stopped
 
@@ -26,3 +26,4 @@ services:
     environment:
       - BACKEND_URL=http://backend:8000
     restart: unless-stopped
+
