@@ -9,5 +9,4 @@ COPY requirements.txt /requirements.txt
 # Instalamos dependencias adicionales (pandas, sklearn, xgboost, optuna, etc.)
 RUN pip install --no-cache-dir -r /requirements.txt
 
-# No copiamos los DAGs ni la data aquí para poder montarlos como volumen
-# desde docker-compose (así puedes editar código sin rebuild)
+
