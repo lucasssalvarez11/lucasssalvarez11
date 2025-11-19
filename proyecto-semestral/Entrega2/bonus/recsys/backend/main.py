@@ -49,10 +49,10 @@ if not TRANSACCIONES_PATH or not PRODUCTOS_PATH:
         TRANSACCIONES_PATH = TRANSACCIONES_PATH or str(t_default)
         PRODUCTOS_PATH = PRODUCTOS_PATH or str(p_default)
     except Exception as e:
-        print(f"⚠️ No se pudieron construir paths por defecto: {e}")
+        print(f" No se pudieron construir paths por defecto: {e}")
 
-print(f"🔍 TRANSACCIONES_PATH = {TRANSACCIONES_PATH}")
-print(f"🔍 PRODUCTOS_PATH     = {PRODUCTOS_PATH}")
+print(f" TRANSACCIONES_PATH = {TRANSACCIONES_PATH}")
+print(f" PRODUCTOS_PATH     = {PRODUCTOS_PATH}")
 
 recommender = None
 try:
@@ -60,9 +60,9 @@ try:
         transacciones_path=TRANSACCIONES_PATH,
         productos_path=PRODUCTOS_PATH,
     )
-    print("✅ Recomendador cargado correctamente")
+    print(" Recomendador cargado correctamente")
 except Exception as e:
-    print(f"❌ Error cargando el recomendador: {e}")
+    print(f" Error cargando el recomendador: {e}")
 
 
 # ----------------------------------------------------
@@ -117,3 +117,4 @@ def recommend(customer_id: int, k: int = 5):
         k=k,
         recommendations=items,
     )
+
