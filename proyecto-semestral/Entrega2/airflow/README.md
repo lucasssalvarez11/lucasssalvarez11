@@ -29,7 +29,7 @@ airflow/
 
 ## 2. Orquestación del pipeline con Airflow
 
-Este script define un **DAG de Airflow** llamado `weekly_ml_pipeline` que ejecuta de forma orquestada el pipeline de ML:
+Este script define un **DAG de Airflow** que ejecuta de forma orquestada el pipeline de ML:
 
 1. Preparación de directorios.
 2. Extracción de datos.
@@ -106,9 +106,8 @@ train_xgboost_with_optuna   skip_training
              end
 
 
-## 2. Pipeline de modelado (extracción, features, entrenamiento y drift)
-
-Este script implementa el **pipeline completo** para un problema de clasificación binaria de compra (`target`) a nivel `cliente-producto-semana`.  
+## 2. Funciones (extracción, features, entrenamiento y drift)
+ 
 Incluye:
 
 - Lectura y preparación de datos crudos (`.parquet`).
@@ -118,7 +117,7 @@ Incluye:
 - Optimización de hiperparámetros y entrenamiento de un modelo **XGBoost**.
 - Detección de **data drift** entre distintos datasets.
 
-La estructura de carpetas asumida es:
+La estructura de carpetas es la siguiente:
 
 - `data/raw/` → datos crudos:
   - `transacciones.parquet`
