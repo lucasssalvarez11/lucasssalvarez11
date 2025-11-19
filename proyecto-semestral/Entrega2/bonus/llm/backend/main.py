@@ -54,11 +54,11 @@ if not (TRANSACCIONES_PATH and CLIENTES_PATH and PRODUCTOS_PATH):
         CLIENTES_PATH = CLIENTES_PATH or str(c_default)
         PRODUCTOS_PATH = PRODUCTOS_PATH or str(p_default)
     except Exception as e:
-        print(f"⚠️ No se pudieron construir paths por defecto: {e}")
+        print(f" No se pudieron construir paths por defecto: {e}")
 
-print(f"🔍 TRANSACCIONES_PATH = {TRANSACCIONES_PATH}")
-print(f"🔍 CLIENTES_PATH      = {CLIENTES_PATH}")
-print(f"🔍 PRODUCTOS_PATH     = {PRODUCTOS_PATH}")
+print(f" TRANSACCIONES_PATH = {TRANSACCIONES_PATH}")
+print(f" CLIENTES_PATH      = {CLIENTES_PATH}")
+print(f" PRODUCTOS_PATH     = {PRODUCTOS_PATH}")
 
 bot = None
 try:
@@ -67,9 +67,9 @@ try:
         clientes_path=CLIENTES_PATH,
         productos_path=PRODUCTOS_PATH,
     )
-    print("✅ Chatbot de datos cargado correctamente")
+    print(" Chatbot de datos cargado correctamente")
 except Exception as e:
-    print(f"❌ Error cargando el chatbot de datos: {e}")
+    print(f" Error cargando el chatbot de datos: {e}")
 
 
 # ----------------------------------------------------
@@ -109,3 +109,4 @@ def chat(req: ChatRequest):
     question = req.message
     answer = bot.answer(question)
     return ChatResponse(answer=answer)
+
