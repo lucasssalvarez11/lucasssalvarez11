@@ -18,7 +18,7 @@ app = FastAPI(
 # main.py está en: entrega2/app/backend/main.py
 # parents[0] = backend
 # parents[1] = app
-# parents[2] = entrega2   ← raíz del proyecto
+# parents[2] = entrega2  
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 AIRFLOW_MODELS_DIR = PROJECT_ROOT / "airflow" / "data" / "models"
@@ -26,7 +26,7 @@ AIRFLOW_MODELS_DIR = PROJECT_ROOT / "airflow" / "data" / "models"
 DEFAULT_MODEL_PATH = AIRFLOW_MODELS_DIR / "xgb_model.pkl"
 DEFAULT_PREPROCESSOR_PATH = AIRFLOW_MODELS_DIR / "preprocessor.pkl"
 
-# Permitimos override vía variables de entorno si quieres cambiarlo en Docker
+# Permitimos override vía variables de entorno 
 MODEL_PATH = os.getenv("MODEL_PATH", str(DEFAULT_MODEL_PATH))
 PREPROCESSOR_PATH = os.getenv("PREPROCESSOR_PATH", str(DEFAULT_PREPROCESSOR_PATH))
 
@@ -53,4 +53,5 @@ except Exception as e:
     preprocessor = None
     INPUT_COLS = []
     print(f"⚠️ No se pudo cargar el preprocesador desde {PREPROCESSOR_PATH}: {e}")
+
 
