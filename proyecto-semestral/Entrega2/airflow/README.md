@@ -24,7 +24,7 @@ airflow/
     processed/            # Datasets procesados y splits.
     models/               # Artefactos del modelo.
 
-
+---
 
 ## 1. Pipeline de modelado (extracción, features, entrenamiento y drift)
 
