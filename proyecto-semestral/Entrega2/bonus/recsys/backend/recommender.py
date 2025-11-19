@@ -22,11 +22,11 @@ class SimpleRecommender:
         if not productos_path.exists():
             raise FileNotFoundError(f"No se encontró productos: {productos_path}")
 
-        print(f"📥 Cargando transacciones desde: {transacciones_path}")
+        print(f" Cargando transacciones desde: {transacciones_path}")
         self.df_trans = pd.read_parquet(transacciones_path)
         print(f"Transacciones: {self.df_trans.shape}")
 
-        print(f"📥 Cargando productos desde: {productos_path}")
+        print(f" Cargando productos desde: {productos_path}")
         self.df_prod = pd.read_parquet(productos_path)
         print(f"Productos: {self.df_prod.shape}")
 
@@ -87,3 +87,4 @@ class SimpleRecommender:
 
         # Asegurar que devolvemos solo columnas razonables
         return recs.to_dict(orient="records")
+
