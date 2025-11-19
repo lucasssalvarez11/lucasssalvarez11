@@ -10,10 +10,6 @@ class DataQABot:
     Chatbot sencillo basado en reglas para responder
     preguntas sobre los datos de SodAI Drinks.
 
-    Responde cosas como:
-    - ¿Cuántos clientes únicos hay en el dataset?
-    - ¿Cuántos productos únicos hay?
-    - ¿Cuántas transacciones ha realizado el cliente X?
     """
 
     def __init__(self, transacciones_path: str, clientes_path: str, productos_path: str):
@@ -28,15 +24,15 @@ class DataQABot:
         if not productos_path.exists():
             raise FileNotFoundError(f"No se encontró productos: {productos_path}")
 
-        print(f"📥 Cargando transacciones desde: {transacciones_path}")
+        print(f" Cargando transacciones desde: {transacciones_path}")
         self.df_trans = pd.read_parquet(transacciones_path)
         print(f"Transacciones: {self.df_trans.shape}")
 
-        print(f"📥 Cargando clientes desde: {clientes_path}")
+        print(f" Cargando clientes desde: {clientes_path}")
         self.df_clientes = pd.read_parquet(clientes_path)
         print(f"Clientes: {self.df_clientes.shape}")
 
-        print(f"📥 Cargando productos desde: {productos_path}")
+        print(f" Cargando productos desde: {productos_path}")
         self.df_productos = pd.read_parquet(productos_path)
         print(f"Productos: {self.df_productos.shape}")
 
@@ -56,9 +52,6 @@ class DataQABot:
     def _extraer_id_cliente(self, question: str) -> Optional[int]:
         """
         Intenta extraer un ID de cliente desde la pregunta.
-        Ejemplos:
-          - "cliente 123"
-          - "cliente 45?"
         """
         nums = re.findall(r"\d+", question)
         if not nums:
@@ -124,3 +117,4 @@ class DataQABot:
             "- ¿Cuántas transacciones ha realizado el cliente 123?\n"
             "- ¿Cuántos productos únicos se encuentran en los datos?\n"
         )
+
