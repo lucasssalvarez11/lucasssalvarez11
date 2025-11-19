@@ -8,7 +8,7 @@ services:
       - "8002:8000"
     volumes:
       # Montamos los datos del pipeline de Airflow
-      # (asumiendo que corres este docker-compose desde app/llm)
+      
       - ../airflow/data:/app/data:ro
     restart: unless-stopped
 
@@ -22,3 +22,4 @@ services:
     environment:
       - BACKEND_URL=http://llm-backend:8000
     restart: unless-stopped
+
