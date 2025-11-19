@@ -43,19 +43,19 @@ def call_backend(
     try:
         resp = requests.post(f"{BACKEND_URL}/predict", json=payload, timeout=10)
     except Exception as e:
-        return f"❌ Error al conectar con el backend: {e}"
+        return f" Error al conectar con el backend: {e}"
 
     if resp.status_code != 200:
-        return f"❌ Error del backend ({resp.status_code}): {resp.text}"
+        return f" Error del backend ({resp.status_code}): {resp.text}"
 
     data = resp.json()
     proba = data.get("probability", 0.0)
     pred = data.get("will_buy_next_week", 0)
 
     texto_pred = (
-        "✅ Se espera que el cliente compre el producto la próxima semana."
+        " Se espera que el cliente compre el producto la próxima semana."
         if pred == 1
-        else "⚠️ Es poco probable que el cliente compre el producto la próxima semana."
+        else " Es poco probable que el cliente compre el producto la próxima semana."
     )
 
     resultado = (
@@ -139,3 +139,4 @@ with gr.Blocks() as demo:
 
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=7860)
+
