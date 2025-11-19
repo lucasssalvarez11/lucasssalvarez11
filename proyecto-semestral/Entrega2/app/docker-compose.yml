@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: sodai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Sobrescribimos rutas de modelo/preprocesador para el contenedor
+      - MODEL_PATH=/app/models/xgb_model.pkl
+      - PREPROCESSOR_PATH=/app/models/preprocessor.pkl
+    volumes:
+      # Montamos los modelos entrenados desde entrega2/airflow/data/models
+      # Asumiendo que docker-compose se ejecuta desde entrega2/app
+      - ../airflow/data/models:/app/models:ro
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: sodai-frontend
+    depends_on:
+      - backend
+    ports:
+      - "7860:7860"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    restart: unless-stopped
