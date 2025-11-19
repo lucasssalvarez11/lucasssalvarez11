@@ -88,7 +88,7 @@ with DAG(
         python_callable=run_preprocessing,
     )
 
-    # >>> AQUÍ VA LA LÓGICA "SI HAY DRIFT → RETRAIN" <<<
+    # SI HAY DRIFT >> RETRAIN
     drift_branch = BranchPythonOperator(
         task_id="check_drift_and_branch",
         python_callable=drift_branch_callable,
@@ -114,3 +114,4 @@ with DAG(
 
     # Ambos caminos se unen al final
     [train_task, skip_training] >> end
+
