@@ -90,7 +90,7 @@ Las tareas son:
 
 El flujo general del DAG es:
 
-```text
+```
 start
   ↓
 ensure_dirs
@@ -105,6 +105,7 @@ train_xgboost_with_optuna   skip_training
         ↘               ↙
              end
 
+```
 
 ## 2. Funciones (extracción, features, entrenamiento y drift)
  
