@@ -14,7 +14,7 @@ def get_recommendations(customer_id, k):
     try:
         customer_id = int(customer_id)
     except (TypeError, ValueError):
-        return "❌ Debes ingresar un ID de cliente válido (entero).", pd.DataFrame()
+        return " Debes ingresar un ID de cliente válido (entero).", pd.DataFrame()
 
     try:
         k = int(k)
@@ -28,16 +28,16 @@ def get_recommendations(customer_id, k):
             timeout=10,
         )
     except Exception as e:
-        return f"❌ Error al conectar con el backend: {e}", pd.DataFrame()
+        return f" Error al conectar con el backend: {e}", pd.DataFrame()
 
     if resp.status_code != 200:
-        return f"❌ Error del backend ({resp.status_code}): {resp.text}", pd.DataFrame()
+        return f" Error del backend ({resp.status_code}): {resp.text}", pd.DataFrame()
 
     data = resp.json()
     recs = data.get("recommendations", [])
 
     if not recs:
-        return "⚠️ No se encontraron recomendaciones para este cliente.", pd.DataFrame()
+        return " No se encontraron recomendaciones para este cliente.", pd.DataFrame()
 
     df = pd.DataFrame(recs)
     texto = (
@@ -85,3 +85,4 @@ with gr.Blocks() as demo:
 
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=7860)
+
