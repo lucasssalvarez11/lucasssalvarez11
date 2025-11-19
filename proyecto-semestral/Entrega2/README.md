@@ -75,10 +75,7 @@ Si pensáramos en una versión futura del flujo, hay varias áreas donde se podr
    - Convertir algunos componentes en **paquetes reutilizables** (por ejemplo, el preprocesador, el loader de datos o el motor de recomendaciones).
    - Unificar configuraciones mediante archivos de `config` o variables de entorno bien documentadas.
 
-5. **Despliegue más cercano a producción**  
-   Aunque usamos Docker de forma conceptual, una versión más cercana a producción implicaría:
-   - Orquestar contenedores en un entorno tipo Kubernetes o similar.
-   - Usar un registry de imágenes y un flujo CI/CD para actualizar backend y frontend automáticamente cuando cambia el código o el modelo.
+
 
 En conjunto, el proyecto nos permitió experimentar un ciclo MLOps completo: desde la construcción de un pipeline reproducible con Airflow, hasta su exposición a usuarios vía APIs y frontends. La principal conclusión es que **el valor de un modelo no es solo su desempeño, sino la infraestructura y los procesos que lo rodean**, y que MLOps es justamente el marco que permite que ese valor sea sostenible en el tiempo.
 
