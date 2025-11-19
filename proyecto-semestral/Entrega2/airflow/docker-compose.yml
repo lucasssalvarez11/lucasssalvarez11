@@ -9,16 +9,16 @@ services:
     environment:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
-      # AIRFLOW_HOME ya es /opt/airflow en la imagen oficial
+      
 
     volumes:
-      # Montas tus DAGs y tu código
+      #  DAGs y código
       - ./dags:/opt/airflow/dags
-      # Montas tu carpeta data (raw/ y lo que se vaya generando)
       - ./data:/opt/airflow/data
 
     ports:
       - "8080:8080"
 
-    # Esto levanta DB, webserver y scheduler solito
+    # levanta DB, webserver y scheduler 
     command: standalone
+
