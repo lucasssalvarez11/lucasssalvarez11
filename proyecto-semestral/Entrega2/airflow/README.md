@@ -228,4 +228,36 @@ La estructura de carpetas es la siguiente:
 - `ensure_dirs()`
   - Se asegura de que existan las rutas base (`data/`, `data/raw/`, `data/processed/`, `data/models/`, `data/predictions/`), creándolas si no existen.
 
+---
+
+## 4. Ejecución con Docker (`docker-compose.yml`)
+
+Para levantar el entorno de Apache Airflow de forma rápida y reproducible se utiliza un archivo `docker-compose.yml` con la siguiente configuración:
+
+```yaml
+version: "3.8"
+
+services:
+  airflow:
+    build: .
+    container_name: airflow-ml
+    restart: unless-stopped
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      # AIRFLOW_HOME ya es /opt/airflow en la imagen oficial
+
+    volumes:
+      # Montas tus DAGs y tu código
+      - ./dags:/opt/airflow/dags
+      # Montas tu carpeta data (raw/ y lo que se vaya generando)
+      - ./data:/opt/airflow/data
+
+    ports:
+      - "8080:8080"
+
+    # Esto levanta DB, webserver y scheduler solito
+    command: standalone
+
 
