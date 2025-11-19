@@ -1,6 +1,6 @@
-# SodAI Drinks 🥤 – Pipeline productivo con Apache Airflow
+# SodAI Drinks 🥤 – Pipeline productivo (Airflow)
 
-Este directorio contiene el **pipeline productivo de Machine Learning** para SodAI Drinks, orquestado con **Apache Airflow**.  
+Este directorio contiene el **pipeline productivo** para SodAI Drinks, orquestado con **Airflow**.  
 El objetivo es automatizar el flujo completo:
 
 1. Extracción y preparación de datos
