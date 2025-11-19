@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  llm-backend:
+    build: ./backend
+    container_name: llm-backend
+    ports:
+      - "8002:8000"
+    volumes:
+      # Montamos los datos del pipeline de Airflow
+      # (asumiendo que corres este docker-compose desde app/llm)
+      - ../airflow/data:/app/data:ro
+    restart: unless-stopped
+
+  llm-frontend:
+    build: ./frontend
+    container_name: llm-frontend
+    depends_on:
+      - llm-backend
+    ports:
+      - "7871:7860"
+    environment:
+      - BACKEND_URL=http://llm-backend:8000
+    restart: unless-stopped
