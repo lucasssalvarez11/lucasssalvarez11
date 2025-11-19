@@ -23,12 +23,90 @@ airflow/
     raw/                  # Datos de entrada (parquet).
     processed/            # Datasets procesados y splits.
     models/               # Artefactos del modelo.
+    predictions/          # (Opcional) Salidas de predicción.
 
----
+## 2. Orquestación del pipeline con Airflow
+
+Este script define un **DAG de Airflow** llamado `weekly_ml_pipeline` que ejecuta de forma orquestada el pipeline de ML:
+
+1. Preparación de directorios.
+2. Extracción de datos.
+3. Preprocesamiento y generación de splits.
+4. Detección de drift.
+5. Reentrenamiento condicional del modelo XGBoost usando Optuna (solo si hay drift).
+
+El DAG está agendado para correrse de forma **semanal** (`schedule_interval="@weekly"`) y no hace *catchup* de fechas pasadas.
+
+### Funciones principales (callables)
+
+- `drift_branch_callable(**kwargs)`
+  - Ejecuta `run_drift_detection(threshold=0.1)`.
+  - Imprime el resultado de la detección de drift.
+  - Devuelve el `task_id` al que debe ir el flujo:
+    - `"train_xgboost_with_optuna"` si **se detecta drift**.
+    - `"skip_training"` si **no hay drift**.
+  - Esta función se usa en un `BranchPythonOperator` para decidir dinámicamente el camino del DAG.
+
+- `train_with_optuna_callable()`
+  - Lanza la optimización de hiperparámetros con `run_optuna_tuning(n_trials=30)`.
+  - Usa los mejores parámetros encontrados para entrenar el modelo final llamando a `train_model(best_params=best_params)`.
+  - Imprime las métricas finales del modelo en el set de test.
+
+Ambas funciones consumen las funciones definidas en `helper_functions.py`:
+`ensure_dirs`, `run_extraction`, `run_preprocessing`, `run_drift_detection`, `run_optuna_tuning`, `train_model`.
+
+### Estructura del DAG y tareas
+
+El DAG se define con:
+
+- `dag_id="weekly_ml_pipeline"`
+- `schedule_interval="@weekly"`
+- `start_date=datetime(2024, 1, 1)`
+- `tags=["ml", "xgboost", "optuna", "drift"]`
+
+Las tareas son:
+
+- `start` (`EmptyOperator`): nodo inicial del flujo.
+- `ensure_dirs` (`PythonOperator`):
+  - Llama a `ensure_dirs()` para asegurarse de que existan las carpetas base (`data/`, `raw`, `processed`, `models`, etc.).
+- `extract_data` (`PythonOperator`):
+  - Ejecuta `run_extraction()` para leer los datos crudos, hacer ajustes básicos y guardarlos en `data/processed/`.
+- `preprocess_data` (`PythonOperator`):
+  - Llama a `run_preprocessing()` para construir el dataset base, aplicar preprocesamiento y generar los splits temporales `train/val/test`.
+- `check_drift_and_branch` (`BranchPythonOperator`):
+  - Ejecuta `drift_branch_callable()` y, según el resultado, bifurca el flujo hacia:
+    - `train_xgboost_with_optuna` (si hay drift).
+    - `skip_training` (si no hay drift).
+- `train_xgboost_with_optuna` (`PythonOperator`):
+  - Ejecuta `train_with_optuna_callable()`, que corre Optuna + entrenamiento final del modelo XGBoost.
+- `skip_training` (`EmptyOperator`):
+  - Nodo “dummy” que representa el camino donde se decide **no reentrenar** el modelo (no hay drift relevante).
+- `end` (`EmptyOperator`):
+  - Nodo final al que convergen ambos caminos (con o sin reentrenamiento).
+
+### Flujo de dependencias
+
+El flujo general del DAG es:
+
+```text
+start
+  ↓
+ensure_dirs
+  ↓
+extract_data
+  ↓
+preprocess_data
+  ↓
+check_drift_and_branch
+        ↙               ↘
+train_xgboost_with_optuna   skip_training
+        ↘               ↙
+             end
+
 
 ## 2. Pipeline de modelado (extracción, features, entrenamiento y drift)
 
-Este script implementa el **pipeline completo de ciencia de datos** para un problema de clasificación binaria de compra (`target`) a nivel `cliente-producto-semana`.  
+Este script implementa el **pipeline completo** para un problema de clasificación binaria de compra (`target`) a nivel `cliente-producto-semana`.  
 Incluye:
 
 - Lectura y preparación de datos crudos (`.parquet`).
